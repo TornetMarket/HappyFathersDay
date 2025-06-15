@@ -94,7 +94,7 @@
     #view-note-btn {
       opacity: 0;
       pointer-events: none;
-      margin-top: 2.2em;
+      margin-top: 5.5em;
       padding: 15px 40px;
       font-family: 'Oswald', Arial, sans-serif;
       font-size: 1.22rem;
@@ -108,6 +108,11 @@
       letter-spacing: 1.2px;
       outline: none;
       transition: opacity .65s, background .18s;
+    }
+    @media (max-width: 600px) {
+      #view-note-btn {
+        margin-top: 8em;
+      }
     }
     #view-note-btn.visible {
       opacity: 1;
