@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Father's Day, Dad!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --harley-orange: #ff6600;
+      --hd-black: #141414;
+      --hd-white: #fff;
+      --panel-bg: linear-gradient(120deg, #222 90%, #181818 100%);
+    }
+    html, body {
+      margin: 0; padding: 0; box-sizing: border-box;
+      background: var(--hd-black);
+      color: var(--hd-white);
+      font-family: 'Montserrat', Arial, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    #splash {
+      position: fixed;
+      z-index: 9999;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--hd-black);
+      transition: opacity .9s cubic-bezier(.7,1.3,.2,1);
+      text-align: center;
+      overflow: hidden;
+    }
+    #splash-video-bg {
+      position: absolute;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      object-fit: cover;
+      z-index: 1;
+      filter: brightness(0.58) saturate(1.1);
+      pointer-events: none;
+      transition: opacity .5s;
+      background: #000;
+    }
+    .splash-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .splash-h1 {
+      font-family: 'Oswald', 'Impact', 'Arial Black', sans-serif;
+      font-size: clamp(2.3rem, 7vw, 3.9rem);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--harley-orange);
+      font-weight: 900;
+      position: relative;
+      line-height: 1.13;
+      background: linear-gradient(110deg, #ff6600 65%, #fff 85%, #ff6600 97%);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 2.8s infinite linear;
+      text-shadow: 0 2px 20px #ff660055, 0 6px 32px #000a;
+    }
+    @keyframes shine {
+      0%   { background-position: 0% 0;}
+      50%  { background-position: 100% 0;}
+      100% { background-position: 0% 0;}
+    }
+    .splash-sub {
+      margin-top: 1.3em;
+      font-size: 1.15rem;
+      color: #fff;
+      font-family: 'Montserrat', Arial, sans-serif;
+      letter-spacing: 1.3px;
+      background: #ff660012;
+      padding: 6px 26px;
+      border-radius: 8px;
+      font-weight: 500;
+      box-shadow: 0 2px 10px #ff66003b;
+    }
+    #view-note-btn {
+      opacity: 0;
+      pointer-events: none;
+      margin-top: 2.2em;
+      padding: 15px 40px;
+      font-family: 'Oswald', Arial, sans-serif;
+      font-size: 1.22rem;
+      font-weight: bold;
+      background: var(--harley-orange);
+      color: #fff;
+      border: none;
+      border-radius: 28px;
+      box-shadow: 0 2px 16px #0007;
+      cursor: pointer;
+      letter-spacing: 1.2px;
+      outline: none;
+      transition: opacity .65s, background .18s;
+    }
+    #view-note-btn.visible {
+      opacity: 1;
+      pointer-events: auto;
+      animation: fadeInBtn .9s;
+    }
+    @keyframes fadeInBtn { from {opacity:0;} to {opacity:1;} }
+    .main-content {
+      width: 100%;
+      min-height: 100vh;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .9s cubic-bezier(.7,1.3,.2,1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 4vh;
+    }
+    .main-content.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .hd-badge {
+      position: fixed;
+      left: 16px; top: 16px;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(120deg, #111 82%, #ff6600 120%);
+      border-radius: 6px;
+      border: 2px solid #ff6600;
+      font-family: 'Oswald', 'Impact', 'Arial Black', sans-serif;
+      font-size: .97rem;
+      letter-spacing: 1.1px;
+      padding: 3.5px 13px 3.5px 9px;
+      color: #fff;
+      z-index: 50;
+      gap: 7px;
+      opacity: 0.82;
+      user-select: none;
+      box-shadow: 0 1.5px 6px #0005;
+    }
+    .hd-badge svg {
+      width: 18px; height: 18px; display: inline; margin-right: 3px;
+      filter: drop-shadow(0 0 1.5px #ff6600);
+      vertical-align: middle;
+    }
+    .letter-wrap {
+      width: 100vw;
+      max-width: 480px;
+      margin: 0 auto;
+      margin-top: 2.4em;
+      margin-bottom: 2em;
+      background: var(--panel-bg);
+      border-radius: 16px;
+      box-shadow: 0 2px 16px #0007;
+      padding: 2em 1.2em 1.2em 1.2em;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    .letter-title {
+      font-family: 'Oswald', 'Impact', 'Arial Black', sans-serif;
+      color: var(--harley-orange);
+      font-size: 1.2rem;
+      margin-bottom: .7em;
+      letter-spacing: 1.2px;
+      text-align: left;
+      font-weight: 700;
+    }
+    .letter-text {
+      font-size: 1.08rem;
+      color: #fce5d6;
+      font-family: 'Montserrat', Arial, sans-serif;
+      line-height: 1.67;
+      letter-spacing: 0.01em;
+      text-align: left;
+      text-shadow: 0 1.5px 8px #0004;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+    .letter-sign {
+      display: block;
+      font-size: 1.03rem;
+      margin-top: 1.5em;
+      font-weight: 600;
+      color: #ff6600;
+      text-align: right;
+      letter-spacing: .9px;
+      font-family: 'Oswald', 'Impact', 'Arial Black', sans-serif;
+    }
+    .credits {
+      text-align:center;
+      opacity:.34;
+      font-size:.98rem;
+      margin-bottom:4.2em;
+      margin-top:.7em;
+      z-index:0;
+    }
+    /* Song Button (Main content) */
+    #audio-btn {
+      background:#ff6600;
+      color:#fff;
+      border:none;
+      border-radius:22px;
+      padding:13px 26px;
+      font-size:1.08rem;
+      font-family:'Oswald',Arial,sans-serif;
+      font-weight:700;
+      box-shadow:0 2px 14px #0006;
+      position:fixed;
+      bottom:20px;
+      right:50%;
+      transform:translateX(50%);
+      z-index:22;
+      cursor:pointer;
+      letter-spacing:1px;
+      transition: background 0.2s, opacity .4s;
+      opacity: 1;
+      display: none;
+    }
+    #audio-btn:active {
+      background: #ce4700;
+    }
+    @media (max-width: 600px) {
+      .letter-wrap { padding: 1.2em 0.7em 1.2em 0.7em; max-width: 98vw; margin-top: 1.1em;}
+      .letter-title { font-size: 1.07rem; }
+      .letter-text { font-size: 0.99rem; }
+      #audio-btn { font-size:1rem; padding:10px 18px; bottom:15px; }
+      .credits { font-size:.92rem; margin-bottom:3.4em; }
+    }
+    @media (max-width: 400px) {
+      .letter-wrap { padding: 1.1em 0.45em; max-width: 100vw; border-radius: 0.9em;}
+      .letter-title { font-size: .98rem;}
+      .letter-text { font-size: 0.95rem; }
+      #audio-btn { font-size:.98rem; }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css?family=Oswald:700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- SPLASH SCREEN -->
+  <div id="splash">
+    <video id="splash-video-bg" autoplay muted loop playsinline>
+      <source src="HarleyRide.mp4" type="video/mp4">
+      <!-- Fallback message for unsupported browsers -->
+      Your browser does not support the video tag.
+    </video>
+    <div class="splash-content">
+      <span class="splash-h1">Happy Father’s Day Dad!</span>
+      <div class="splash-sub">From Richie</div>
+      <button id="view-note-btn">View Note</button>
+    </div>
+  </div>
+  <!-- MAIN CONTENT -->
+  <div class="main-content" id="main-content">
+    <!-- HARLEY BADGE -->
+    <div class="hd-badge">
+      <svg viewBox="0 0 24 24" fill="none">
+        <rect x="1" y="6" width="22" height="12" rx="5" fill="#ff6600" stroke="#fff" stroke-width="1.4"/>
+        <text x="12" y="16.1" text-anchor="middle" fill="#fff" font-family="Oswald,Arial Black,sans-serif" font-size="11" font-weight="bold">HARLEY</text>
+      </svg>
+      <span style="font-weight:700;">Harley-Davidson</span>
+    </div>
+    <!-- LETTER -->
+    <section class="letter-wrap">
+      <div class="letter-title">A Note From Richie</div>
+      <div class="letter-text">
+        Dad,<br><br>
+        I just want to tell you how much I love and appreciate you—not just today, but every day. I thought of you this morning, and the first memory that came to mind was all those times you’d pick me up from school on the Harley. From the times you put me on the back of the bike, to the little lessons and the big adventures, you’ve shown me what real freedom and heart look like.<br><br>
+        Thank you for always being my hero, for your wisdom, your smiles, and your strength. I hope this gift reminds you of all the miles and memories we’ve shared, and how much you mean to me.<br><br>
+        And Dad, when you ride, do it with 100% and with safety—think of me too, and let that give you an extra reason to ride safe every mile. I know soon enough we’ll be riding side by side again—just like old times on the electric scooters, only this time, on real motorcycles.<br>
+        <span class="letter-sign">With all my love,<br>Richie</span>
+      </div>
+    </section>
+    <div class="credits">
+      &mdash; Coded by Richie, for Dad &mdash;<br>
+    </div>
+    <!-- AUDIO (Your Song) -->
+    <audio id="winds-audio" src="WindsOfChange.mp3" preload="auto"></audio>
+    <button id="audio-btn">⏹ Stop Song</button>
+  </div>
+  <script>
+    // Splash Button only fades in once and stays visible until clicked
+    const viewBtn = document.getElementById('view-note-btn');
+    setTimeout(()=>{
+      viewBtn.classList.add('visible');
+    }, 3000);
+
+    // Only hide splash when button is clicked
+    viewBtn.onclick = function() {
+      viewBtn.disabled = true;
+      document.getElementById('splash').style.opacity = 0;
+      setTimeout(()=>{
+        document.getElementById('splash').style.display = 'none';
+        document.getElementById('main-content').classList.add('show');
+        // Play the music
+        playSong(true);
+        showAudioBtn();
+        // Pause/hide video for performance after transition
+        const vid = document.getElementById('splash-video-bg');
+        if (vid) { vid.pause(); vid.currentTime = 0; }
+      }, 900);
+    };
+
+    // SONG BUTTON LOGIC
+    const audio = document.getElementById('winds-audio');
+    const audioBtn = document.getElementById('audio-btn');
+    let isPlaying = false;
+
+    function playSong(autoplay = false) {
+      if (autoplay || !isPlaying) {
+        audio.currentTime = 0;
+        audio.play();
+        isPlaying = true;
+        audioBtn.innerText = "⏹ Stop Song";
+      } else {
+        audio.pause();
+        audio.currentTime = 0;
+        isPlaying = false;
+        audioBtn.innerText = "▶️ Play Song";
+      }
+    }
+    audioBtn.onclick = function() {
+      playSong();
+    };
+    audio.addEventListener('ended', function() {
+      audioBtn.innerText = "▶️ Play Song";
+      isPlaying = false;
+    });
+
+    // Show song button only after splash is gone & main is visible
+    function showAudioBtn() {
+      setTimeout(()=>{
+        audioBtn.style.display = 'block';
+        audioBtn.style.opacity = 1;
+        adjustAudioBtn();
+      }, 500);
+    }
+    audioBtn.style.display = 'none';
+
+    // Keep song button clear of credits
+    function adjustAudioBtn() {
+      const btn = audioBtn;
+      const credits = document.querySelector('.credits');
+      if (!credits) return;
+      const creditsRect = credits.getBoundingClientRect();
+      if(window.innerHeight - creditsRect.bottom < 70) {
+        btn.style.bottom = (window.innerHeight - creditsRect.top + 20) + 'px';
+      } else {
+        btn.style.bottom = '20px';
+      }
+    }
+    window.addEventListener('resize', adjustAudioBtn);
+    setInterval(adjustAudioBtn, 800);
+  </script>
+</body>
+</html>
