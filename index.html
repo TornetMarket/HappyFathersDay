@@ -46,8 +46,8 @@
       z-index: 1;
       filter: brightness(0.58) saturate(1.1);
       pointer-events: none;
-      transition: opacity .5s;
       background: #000;
+      transition: opacity .5s;
     }
     .splash-content {
       position: relative;
@@ -209,7 +209,6 @@
       margin-top:.7em;
       z-index:0;
     }
-    /* Song Button (Main content) */
     #audio-btn {
       background:#ff6600;
       color:#fff;
@@ -254,7 +253,14 @@
 <body>
   <!-- SPLASH SCREEN -->
   <div id="splash">
-    <video id="splash-video-bg" autoplay muted loop playsinline preload="auto">
+    <video
+      id="splash-video-bg"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      style="object-fit:cover;width:100vw;height:100vh;position:absolute;top:0;left:0;z-index:1;background:#000;">
       <source src="HarleyRide.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
@@ -295,21 +301,28 @@
   <script>
     // Splash Button only fades in once and stays visible until clicked
     const viewBtn = document.getElementById('view-note-btn');
-    setTimeout(()=>{
-      viewBtn.classList.add('visible');
-    }, 3000);
+    setTimeout(()=>{ viewBtn.classList.add('visible'); }, 3000);
 
-    // Only hide splash when button is clicked
+    // Force splash video play on all user actions and on load (mobile fix)
+    function tryPlaySplashVideo() {
+      var vid = document.getElementById('splash-video-bg');
+      if (vid && vid.paused) {
+        vid.play().catch(()=>{});
+      }
+    }
+    document.addEventListener("DOMContentLoaded", tryPlaySplashVideo);
+    document.addEventListener("touchstart", tryPlaySplashVideo, {passive:true});
+    document.addEventListener("click", tryPlaySplashVideo);
+
     viewBtn.onclick = function() {
       viewBtn.disabled = true;
       document.getElementById('splash').style.opacity = 0;
       setTimeout(()=>{
         document.getElementById('splash').style.display = 'none';
         document.getElementById('main-content').classList.add('show');
-        // Play the music
         playSong(true);
         showAudioBtn();
-        // Pause/hide video for performance after transition
+        // Pause/hide video after transition
         const vid = document.getElementById('splash-video-bg');
         if (vid) { vid.pause(); vid.currentTime = 0; }
       }, 900);
